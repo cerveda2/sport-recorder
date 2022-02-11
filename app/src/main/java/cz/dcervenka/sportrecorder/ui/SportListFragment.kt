@@ -1,31 +1,32 @@
-package cz.dcervenka.sportrecorder
+package cz.dcervenka.sportrecorder.ui
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.snackbar.Snackbar
-import cz.dcervenka.sportrecorder.databinding.FragmentFirstBinding
+import cz.dcervenka.sportrecorder.R
+import cz.dcervenka.sportrecorder.databinding.FragmentSportListBinding
+import dagger.hilt.android.AndroidEntryPoint
 
-/**
- * A simple [Fragment] subclass as the default destination in the navigation.
- */
-class FirstFragment : Fragment() {
 
-    private var _binding: FragmentFirstBinding? = null
+@AndroidEntryPoint
+class SportListFragment : Fragment() {
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
+    private var _binding: FragmentSportListBinding? = null
+
     private val binding get() = _binding!!
+
+    private val viewModel: MainViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
 
-        _binding = FragmentFirstBinding.inflate(inflater, container, false)
+        _binding = FragmentSportListBinding.inflate(inflater, container, false)
         return binding.root
 
     }

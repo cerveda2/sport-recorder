@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/FirstFragment"
-        android:name="cz.dcervenka.sportrecorder.FirstFragment"
-        android:label="@string/first_fragment_label"
-        tools:layout="@layout/fragment_first">
+        android:name="cz.dcervenka.sportrecorder.ui.SportListFragment"
+        android:label="@string/list_fragment_label"
+        tools:layout="@layout/fragment_sport_list">
 
         <action
             android:id="@+id/action_FirstFragment_to_SecondFragment"
@@ -17,9 +17,9 @@
     </fragment>
     <fragment
         android:id="@+id/SecondFragment"
-        android:name="cz.dcervenka.sportrecorder.SecondFragment"
-        android:label="@string/second_fragment_label"
-        tools:layout="@layout/fragment_second">
+        android:name="cz.dcervenka.sportrecorder.ui.SportCreateFragment"
+        android:label="@string/create_sport_fragment_label"
+        tools:layout="@layout/fragment_sport_create">
 
         <action
             android:id="@+id/action_SecondFragment_to_FirstFragment"

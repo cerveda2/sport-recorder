@@ -1,30 +1,32 @@
-package cz.dcervenka.sportrecorder
+package cz.dcervenka.sportrecorder.ui
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import cz.dcervenka.sportrecorder.databinding.FragmentSecondBinding
+import cz.dcervenka.sportrecorder.R
+import cz.dcervenka.sportrecorder.databinding.FragmentSportCreateBinding
+import dagger.hilt.android.AndroidEntryPoint
 
-/**
- * A simple [Fragment] subclass as the second destination in the navigation.
- */
-class SecondFragment : Fragment() {
 
-    private var _binding: FragmentSecondBinding? = null
+@AndroidEntryPoint
+class SportCreateFragment : Fragment() {
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
+    private var _binding: FragmentSportCreateBinding? = null
+
     private val binding get() = _binding!!
+
+    private val viewModel: MainViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
 
-        _binding = FragmentSecondBinding.inflate(inflater, container, false)
+        _binding = FragmentSportCreateBinding.inflate(inflater, container, false)
         return binding.root
 
     }
