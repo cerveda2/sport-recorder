@@ -3,7 +3,6 @@ package cz.dcervenka.sportrecorder.ui
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
@@ -16,7 +15,7 @@ import java.util.*
 
 class SportAdapter : RecyclerView.Adapter<SportAdapter.SportViewHolder>() {
 
-    val diffCallback = object  : DiffUtil.ItemCallback<Sport>() {
+    private val diffCallback = object  : DiffUtil.ItemCallback<Sport>() {
         override fun areItemsTheSame(oldItem: Sport, newItem: Sport): Boolean {
             return oldItem.id == newItem.id
         }
