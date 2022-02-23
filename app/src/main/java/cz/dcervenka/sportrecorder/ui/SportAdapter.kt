@@ -1,5 +1,6 @@
 package cz.dcervenka.sportrecorder.ui
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,11 +10,14 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import cz.dcervenka.sportrecorder.R
 import cz.dcervenka.sportrecorder.db.Sport
-import cz.dcervenka.sportrecorder.other.StringUtil.getFormattedStopWatchTime
-import java.text.SimpleDateFormat
-import java.util.*
+import cz.dcervenka.sportrecorder.other.SortType
+import cz.dcervenka.sportrecorder.other.StringUtil.getFormattedDate
+import cz.dcervenka.sportrecorder.other.StringUtil.getFormattedDuration
 
-class SportAdapter : RecyclerView.Adapter<SportAdapter.SportViewHolder>() {
+class SportAdapter internal constructor(
+    private val context: Context,
+    private val itemListener: ItemListener
+) : RecyclerView.Adapter<SportAdapter.SportViewHolder>() {
 
     private val diffCallback = object  : DiffUtil.ItemCallback<Sport>() {
         override fun areItemsTheSame(oldItem: Sport, newItem: Sport): Boolean {
@@ -26,7 +30,7 @@ class SportAdapter : RecyclerView.Adapter<SportAdapter.SportViewHolder>() {
 
     }
 
-    val differ = AsyncListDiffer(this, diffCallback)
+    private val differ = AsyncListDiffer(this, diffCallback)
 
     fun submitList(list: List<Sport>) = differ.submitList(list)
 
@@ -57,25 +61,31 @@ class SportAdapter : RecyclerView.Adapter<SportAdapter.SportViewHolder>() {
         private val place: TextView = itemView.findViewById(R.id.tvPlace)
         private val duration: TextView = itemView.findViewById(R.id.tvDuration)
         private val distance: TextView = itemView.findViewById(R.id.tvDistance)
+        private val type: TextView = itemView.findViewById(R.id.tvType)
 
-        init {
-            // Define click listener for the ViewHolder's View.
-        }
 
         fun bind(sport: Sport) {
-            val calendar = Calendar.getInstance().apply {
-                timeInMillis = sport.timestamp
+            if (sport.storageType == SortType.REMOTE) {
+                itemView.setBackgroundColor(context.getColor(R.color.grey))
             }
-            val dateFormat = SimpleDateFormat("dd.MM.yy", Locale.getDefault())
-            date.text = dateFormat.format(calendar.time)
-
+            itemView.setOnLongClickListener {
+                itemListener.onLongClick(sport)
+                true
+            }
+            date.text = getFormattedDate(sport.timestamp)
             name.text = sport.name
             place.text = sport.place
-            duration.text = getFormattedStopWatchTime(sport.durationInMillis)
+            val durationMins = getFormattedDuration(sport.durationInMillis)
+            duration.text = durationMins
             val distanceMeters = "${sport.distanceInMeters} m"
             distance.text = distanceMeters
+            type.text = sport.storageType.name
         }
 
+    }
+
+    interface ItemListener {
+        fun onLongClick(sport: Sport)
     }
 
 }

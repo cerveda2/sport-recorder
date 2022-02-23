@@ -12,6 +12,8 @@ class SportRepository @Inject constructor(
 
     suspend fun deleteSport(sport: Sport) = sportDao.deleteSport(sport)
 
-    fun getAllSportsSortedByDate(type: SortType) = sportDao.getAllSportsSortedByDate(type.name)
+    fun getAllSportsSortedByDate() = sportDao.getAllSportsSortedByDate()
+
+    fun getSportsByStorage(type: SortType) = sportDao.getSportsByStorage(type.name)
 
 }

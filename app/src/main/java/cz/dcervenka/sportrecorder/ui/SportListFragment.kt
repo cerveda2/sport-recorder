@@ -1,5 +1,6 @@
 package cz.dcervenka.sportrecorder.ui
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.*
 import android.widget.AdapterView
@@ -9,13 +10,13 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import cz.dcervenka.sportrecorder.R
 import cz.dcervenka.sportrecorder.databinding.FragmentSportListBinding
+import cz.dcervenka.sportrecorder.db.Sport
 import cz.dcervenka.sportrecorder.other.SortType
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 
 
 @AndroidEntryPoint
-class SportListFragment : Fragment() {
+class SportListFragment : Fragment(), SportAdapter.ItemListener {
 
     private var _binding: FragmentSportListBinding? = null
     private val binding get() = _binding!!
@@ -41,8 +42,9 @@ class SportListFragment : Fragment() {
         }
 
         when (viewModel.sortType) {
-            SortType.LOCAL -> binding.spFilter.setSelection(0)
-            SortType.REMOTE -> binding.spFilter.setSelection(1)
+            SortType.ALL -> binding.spFilter.setSelection(0)
+            SortType.LOCAL -> binding.spFilter.setSelection(1)
+            SortType.REMOTE -> binding.spFilter.setSelection(2)
         }
 
         binding.spFilter.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -53,8 +55,9 @@ class SportListFragment : Fragment() {
                 id: Long
             ) {
                 when (pos) {
-                    0 -> viewModel.sortRuns(SortType.LOCAL)
-                    1 -> viewModel.sortRuns(SortType.REMOTE)
+                    0 -> viewModel.sortRuns(SortType.ALL)
+                    1 -> viewModel.sortRuns(SortType.LOCAL)
+                    2 -> viewModel.sortRuns(SortType.REMOTE)
                 }
             }
 
@@ -91,22 +94,26 @@ class SportListFragment : Fragment() {
     }
 
     private fun setupRecyclerView() = binding.rvSport.apply {
-        sportAdapter = SportAdapter()
+        sportAdapter = SportAdapter(requireContext(), this@SportListFragment)
         adapter = sportAdapter
         layoutManager = LinearLayoutManager(requireContext())
-
-        if (adapter!!.itemCount < 1) {
-            Timber.w("List is empty, show message")
-            binding.tvEmptyList.visibility = View.VISIBLE
-            binding.rvSport.visibility = View.GONE
-        } else {
-            binding.tvEmptyList.visibility = View.GONE
-            binding.rvSport.visibility = View.VISIBLE
-        }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onLongClick(sport: Sport) {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setMessage("Do you really want to delete this entry?")
+        builder.setCancelable(true)
+        builder.setPositiveButton("Yes") { _, _ -> viewModel.deleteSport(sport) }
+        builder.setNegativeButton("No") { dialog, _ -> dialog.cancel() }
+
+        val alert11: AlertDialog = builder.create()
+        alert11.show()
+
+        //viewModel.deleteSport(sport)
     }
 }

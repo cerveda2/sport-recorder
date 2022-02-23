@@ -6,22 +6,167 @@
     android:layout_height="match_parent"
     tools:context=".ui.SportCreateFragment">
 
-    <Button
-        android:id="@+id/button_second"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/ll_name"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/previous"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:orientation="horizontal"
+        android:layout_marginTop="@dimen/margin_default"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textview_second" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        android:id="@+id/textview_second"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/name_desc"
+            android:layout_margin="@dimen/margin_default" />
+
+        <EditText
+            android:id="@+id/et_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/name_hint"
+            android:layout_margin="@dimen/margin_default"
+            android:padding="12dp"
+            android:textSize="15sp"
+            android:inputType="text"
+            android:autofillHints="name"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_place"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ll_name">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/place_desc"
+            android:layout_margin="@dimen/margin_default" />
+
+        <EditText
+            android:id="@+id/et_place"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/place_hint"
+            android:layout_margin="@dimen/margin_default"
+            android:padding="12dp"
+            android:textSize="15sp"
+            android:inputType="text"
+            android:autofillHints="name"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_duration"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ll_place">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/duration_desc"
+            android:layout_margin="@dimen/margin_default" />
+
+        <EditText
+            android:id="@+id/et_duration"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/duration_hint"
+            android:layout_margin="@dimen/margin_default"
+            android:padding="12dp"
+            android:textSize="15sp"
+            android:inputType="numberDecimal"
+            android:autofillHints="name"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_distance"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ll_duration">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/distance_desc"
+            android:layout_margin="@dimen/margin_default" />
+
+        <EditText
+            android:id="@+id/et_distance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/distance_hint"
+            android:layout_margin="@dimen/margin_default"
+            android:padding="12dp"
+            android:textSize="15sp"
+            android:inputType="numberDecimal"
+            android:autofillHints="name"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_storage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ll_distance">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/storage_desc"
+            android:layout_margin="@dimen/margin_default" />
+
+        <RadioGroup
+            android:id="@+id/radioGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RadioButton
+                android:id="@+id/local"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/storage_local" />
+
+            <RadioButton
+                android:id="@+id/remote"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/storage_remote" />
+
+        </RadioGroup>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/button_cancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@id/button_second"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:text="@string/cancel"
+        android:layout_margin="@dimen/margin_default"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/button_save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/save"
+        android:layout_margin="@dimen/margin_default"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

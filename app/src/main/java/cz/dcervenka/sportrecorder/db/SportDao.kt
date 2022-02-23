@@ -12,7 +12,10 @@ interface SportDao {
     @Delete
     suspend fun deleteSport(sport: Sport)
 
+    @Query("SELECT * FROM sport_table ORDER BY timestamp DESC")
+    fun getAllSportsSortedByDate(): LiveData<List<Sport>>
+
     @Query("SELECT * FROM sport_table WHERE storageType = :type ORDER BY timestamp DESC")
-    fun getAllSportsSortedByDate(type: String): LiveData<List<Sport>>
+    fun getSportsByStorage(type: String): LiveData<List<Sport>>
 
 }

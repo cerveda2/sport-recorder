@@ -12,17 +12,23 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    val sportRepository: SportRepository
+    private val sportRepository: SportRepository
 ) : ViewModel() {
 
-    private val sportsLocal = sportRepository.getAllSportsSortedByDate(SortType.LOCAL)
-    private val sportsRemote = sportRepository.getAllSportsSortedByDate(SortType.REMOTE)
+    private val sportsAll = sportRepository.getAllSportsSortedByDate()
+    private val sportsLocal = sportRepository.getSportsByStorage(SortType.LOCAL)
+    private val sportsRemote = sportRepository.getSportsByStorage(SortType.REMOTE)
 
     val sports = MediatorLiveData<List<Sport>>()
 
-    var sortType = SortType.LOCAL
+    var sortType = SortType.ALL
 
     init {
+        sports.addSource(sportsAll) { result ->
+            if (sortType == SortType.ALL) {
+                result?.let { sports.value = it }
+            }
+        }
         sports.addSource(sportsLocal) { result ->
             if (sortType == SortType.LOCAL) {
                 result?.let { sports.value = it }
@@ -36,14 +42,19 @@ class MainViewModel @Inject constructor(
     }
 
     fun sortRuns(sortType: SortType) = when (sortType) {
+        SortType.ALL -> sportsAll.value?.let { sports.value = it }
         SortType.LOCAL -> sportsLocal.value?.let { sports.value = it }
         SortType.REMOTE -> sportsRemote.value?.let { sports.value = it }
     }.also {
         this.sortType = sortType
     }
 
-    fun insertRun(sport: Sport) = viewModelScope.launch {
+    fun insertSport(sport: Sport) = viewModelScope.launch {
         sportRepository.insertSport(sport)
+    }
+
+    fun deleteSport(sport: Sport) = viewModelScope.launch {
+        sportRepository.deleteSport(sport)
     }
 
 }

@@ -1,10 +1,20 @@
 package cz.dcervenka.sportrecorder.other
 
+import java.text.SimpleDateFormat
+import java.util.*
 import java.util.concurrent.TimeUnit
 
 object StringUtil {
 
-    fun getFormattedStopWatchTime(ms: Long): String {
+    fun getFormattedDate(ms: Long): String {
+        val calendar = Calendar.getInstance().apply {
+            timeInMillis = ms
+        }
+        val dateFormat = SimpleDateFormat("dd.MM.yy", Locale.getDefault())
+        return dateFormat.format(calendar.time)
+    }
+
+    fun getFormattedDuration(ms: Long): String {
         var milliseconds = ms
         val hours = TimeUnit.MILLISECONDS.toHours(milliseconds)
         milliseconds -= TimeUnit.HOURS.toMillis(hours)

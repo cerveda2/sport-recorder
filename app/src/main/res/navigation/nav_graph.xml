@@ -20,9 +20,5 @@
         android:name="cz.dcervenka.sportrecorder.ui.SportCreateFragment"
         android:label="@string/create_sport_fragment_label"
         tools:layout="@layout/fragment_sport_create">
-
-        <action
-            android:id="@+id/action_SecondFragment_to_FirstFragment"
-            app:destination="@id/FirstFragment" />
     </fragment>
 </navigation>
