@@ -22,8 +22,8 @@ class SportRepository @Inject constructor(
 
     suspend fun getRemoteData() = sportService.getData(API_KEY)
 
-    suspend fun postSport(document: Document, collectionId: String) = sportService.postData(document, collectionId)
+    suspend fun postSport(document: Document) = sportService.postData(API_KEY, document)
 
-    suspend fun deleteRemoteSport(document: Document) = sportService.deleteData(document)
+    suspend fun deleteRemoteSport(collectionId: String) = sportService.deleteData(collectionId, API_KEY)
 
 }

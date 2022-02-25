@@ -12,6 +12,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import cz.dcervenka.sportrecorder.databinding.FragmentSportCreateBinding
 import cz.dcervenka.sportrecorder.db.Sport
+import cz.dcervenka.sportrecorder.network.model.*
 import cz.dcervenka.sportrecorder.other.SortType
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
@@ -68,8 +69,16 @@ class SportCreateFragment : Fragment() {
                 Toast.makeText(requireContext(), "Item inserted", Toast.LENGTH_SHORT).show()
                 findNavController().navigateUp()
             } else {
-                // TODO read documentation for creating documents in remote db
-                //viewModel.postSport(sport)
+                val fields = Fields(
+                    Distance(distanceValid),
+                    Duration(durationValid),
+                    Name(name),
+                    Place(place),
+                    Timestamp(dateTimeStamp)
+                )
+                val document = Document(null, fields, null, null)
+                viewModel.postSport(document)
+                findNavController().navigateUp()
             }
         } else {
             Toast.makeText(requireContext(), "You have to fill all fields", Toast.LENGTH_LONG).show()

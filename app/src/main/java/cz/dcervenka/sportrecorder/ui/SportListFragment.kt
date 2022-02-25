@@ -76,12 +76,9 @@ class SportListFragment : Fragment(), SportAdapter.ItemListener {
             when (response) {
                 is Resource.Success -> {
                     Toast.makeText(requireContext(), "Data successfully loaded", Toast.LENGTH_SHORT).show()
-                    /*response.data?.let { sportResponse ->
-                        sportAdapter.submitList(mapRemoteToLocal(sportResponse.documents))
-                    }*/
                 }
                 is Resource.Loading -> {
-                    Toast.makeText(requireContext(), "Data loading", Toast.LENGTH_SHORT).show()
+                    //Toast.makeText(requireContext(), "Data loading", Toast.LENGTH_SHORT).show()
                 }
                 is Resource.Error -> {
                     Toast.makeText(requireContext(), "Error loading data", Toast.LENGTH_SHORT).show()
@@ -97,6 +94,11 @@ class SportListFragment : Fragment(), SportAdapter.ItemListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         setHasOptionsMenu(true)
         super.onCreate(savedInstanceState)
+    }
+
+    override fun onResume() {
+        viewModel.getRemoteData()
+        super.onResume()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -126,19 +128,16 @@ class SportListFragment : Fragment(), SportAdapter.ItemListener {
     }
 
     override fun onLongClick(sport: Sport) {
-        if (binding.spFilter.selectedItemPosition != 0) {
-            // Temporary solution before enabling delete from db
-            return
-        }
         val builder = AlertDialog.Builder(requireContext())
         builder.setMessage("Do you really want to delete this entry?")
         builder.setCancelable(true)
-        builder.setPositiveButton("Yes") { _, _ -> viewModel.deleteSport(sport) }
+        builder.setPositiveButton("Yes") { _, _ ->
+            viewModel.deleteSport(sport)
+            viewModel.getRemoteData()
+        }
         builder.setNegativeButton("No") { dialog, _ -> dialog.cancel() }
 
         val alert11: AlertDialog = builder.create()
         alert11.show()
-
-        //viewModel.deleteSport(sport)
     }
 }

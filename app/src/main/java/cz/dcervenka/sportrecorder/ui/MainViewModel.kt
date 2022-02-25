@@ -31,7 +31,7 @@ class MainViewModel @Inject constructor(
     var sortType = SortType.LOCAL
 
     init {
-        getRemoteData()
+        //getRemoteData()
 
         sports.addSource(sportsLocal) { result ->
             if (sortType == SortType.LOCAL) {
@@ -59,20 +59,24 @@ class MainViewModel @Inject constructor(
     }
 
     fun deleteSport(sport: Sport) = viewModelScope.launch {
-        sportRepository.deleteSport(sport)
+        if (sport.storageType == SortType.LOCAL) {
+            sportRepository.deleteSport(sport)
+        } else {
+            sportRepository.deleteRemoteSport(sport.remoteId!!)
+        }
     }
 
-    private fun getRemoteData() = viewModelScope.launch {
+    fun getRemoteData() = viewModelScope.launch {
         remoteData.postValue(Resource.Loading())
         val response = sportRepository.getRemoteData()
-        remoteData.postValue(handleSnowResponse(response))
+        remoteData.postValue(handleSportResponse(response))
     }
 
-    fun postSport(document: Document, collectionId: String) = viewModelScope.launch {
-        sportRepository.postSport(document, collectionId)
+    fun postSport(document: Document) = viewModelScope.launch {
+        sportRepository.postSport(document)
     }
 
-    private fun handleSnowResponse(response: Response<RemoteData>): Resource<RemoteData> {
+    private fun handleSportResponse(response: Response<RemoteData>): Resource<RemoteData> {
         if (response.isSuccessful) {
             response.body()?.let {
                 return Resource.Success(it)

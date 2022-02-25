@@ -23,7 +23,9 @@ object AppModule {
         app,
         SportDatabase::class.java,
         SPORT_DATABASE_NAME
-    ).build()
+    )
+        .fallbackToDestructiveMigration()
+        .build()
 
     @Singleton
     @Provides

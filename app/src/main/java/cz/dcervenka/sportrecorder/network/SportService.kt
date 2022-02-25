@@ -10,10 +10,10 @@ interface SportService {
     @GET("projects/sportrecorder-dabcc/databases/(default)/documents/data")
     suspend fun getData(@Query("key") apiKey: String): Response<RemoteData>
 
-    @POST("projects/sportrecorder-dabcc/databases/(default)/documents/{collectionId}")
-    suspend fun postData(@Body document: Document, @Path("collectionId") collectionId: String)
+    @POST("projects/sportrecorder-dabcc/databases/(default)/documents/data")
+    suspend fun postData(@Query("key") apiKey: String, @Body document: Document)
 
-    @DELETE("data")
-    suspend fun deleteData(@Body document: Document)
+    @DELETE("projects/sportrecorder-dabcc/databases/(default)/documents/data/{collectionId}")
+    suspend fun deleteData(@Path("collectionId") collectionId: String, @Query("key") apiKey: String)
 
 }

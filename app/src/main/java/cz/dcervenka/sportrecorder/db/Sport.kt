@@ -11,7 +11,8 @@ data class Sport(
     var place: String = "",
     var durationInMillis: Long = 0L,
     var distanceInMeters: Int = 0,
-    var storageType: SortType = SortType.LOCAL
+    var storageType: SortType = SortType.LOCAL,
+    var remoteId: String? = null
 ) {
     @PrimaryKey(autoGenerate = true)
     var id: Int? = null

@@ -67,6 +67,8 @@ class SportAdapter internal constructor(
         fun bind(sport: Sport) {
             if (sport.storageType == SortType.REMOTE) {
                 itemView.setBackgroundColor(context.getColor(R.color.grey))
+            } else {
+                itemView.setBackgroundColor(context.getColor(R.color.white))
             }
             itemView.setOnLongClickListener {
                 itemListener.onLongClick(sport)

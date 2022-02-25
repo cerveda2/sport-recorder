@@ -7,16 +7,20 @@ import kotlin.collections.ArrayList
 object Mapping {
 
     fun mapRemoteToLocal(list: List<Document>?) : List<Sport> {
+        val delimiter = "/"
+
         val sportsToBeAdded = ArrayList<Sport>()
         if (list != null) {
             for (sport in list) {
+                val names = sport.name?.split(delimiter)
                 val s = Sport(
                     sport.fields.timestamp.integerValue,
                     sport.fields.name.stringValue,
                     sport.fields.place.stringValue,
                     sport.fields.duration.integerValue,
                     sport.fields.distance.integerValue,
-                    SortType.REMOTE
+                    SortType.REMOTE,
+                    names?.get(names.size - 1)
                 )
                 sportsToBeAdded.add(s)
             }
