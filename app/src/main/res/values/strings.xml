@@ -19,7 +19,6 @@
     <string name="storage_remote">Remote database</string>
 
     <string-array name="filter_options">
-        <item>All</item>
         <item>Local</item>
         <item>Remote</item>
     </string-array>

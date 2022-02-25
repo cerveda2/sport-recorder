@@ -16,10 +16,13 @@ import com.google.android.material.snackbar.Snackbar
 import cz.dcervenka.sportrecorder.R
 import cz.dcervenka.sportrecorder.databinding.FragmentSportCreateBinding
 import cz.dcervenka.sportrecorder.db.Sport
+import cz.dcervenka.sportrecorder.network.model.Document
+import cz.dcervenka.sportrecorder.network.model.RemoteData
 import cz.dcervenka.sportrecorder.other.SortType
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 import java.util.concurrent.TimeUnit
+import kotlin.collections.ArrayList
 import kotlin.math.round
 import kotlin.time.Duration.Companion.milliseconds
 
@@ -69,9 +72,14 @@ class SportCreateFragment : Fragment() {
             val storageEntryName = resources.getResourceEntryName(selectedId).uppercase()
             val storageType = SortType.fromString(storageEntryName)
             val sport = Sport(dateTimeStamp, name, place, durationValid, distanceValid, storageType!!)
-            viewModel.insertSport(sport)
-            Toast.makeText(requireContext(), "Item inserted", Toast.LENGTH_SHORT).show()
-            findNavController().navigateUp()
+            if (storageType == SortType.LOCAL) {
+                viewModel.insertSport(sport)
+                Toast.makeText(requireContext(), "Item inserted", Toast.LENGTH_SHORT).show()
+                findNavController().navigateUp()
+            } else {
+                // TODO read documentation for creating documents in remote db
+                //viewModel.postSport(sport)
+            }
         } else {
             Toast.makeText(requireContext(), "You have to fill all fields", Toast.LENGTH_LONG).show()
         }

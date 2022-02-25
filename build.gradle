@@ -4,6 +4,9 @@ buildscript {
         version_room = "2.4.1"
         version_hilt = "2.38.1"
         version_timber = "5.0.1"
+        version_moshi = "1.12.0"
+        version_retrofit = "2.9.0"
+        version_httplogging = "4.9.3"
     }
     dependencies {
         classpath "com.google.dagger:hilt-android-gradle-plugin:$version_hilt"

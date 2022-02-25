@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.os.Bundle
 import android.view.*
 import android.widget.AdapterView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -11,8 +12,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import cz.dcervenka.sportrecorder.R
 import cz.dcervenka.sportrecorder.databinding.FragmentSportListBinding
 import cz.dcervenka.sportrecorder.db.Sport
+import cz.dcervenka.sportrecorder.network.Resource
+import cz.dcervenka.sportrecorder.other.Mapping.mapRemoteToLocal
 import cz.dcervenka.sportrecorder.other.SortType
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 
 @AndroidEntryPoint
@@ -42,9 +46,8 @@ class SportListFragment : Fragment(), SportAdapter.ItemListener {
         }
 
         when (viewModel.sortType) {
-            SortType.ALL -> binding.spFilter.setSelection(0)
-            SortType.LOCAL -> binding.spFilter.setSelection(1)
-            SortType.REMOTE -> binding.spFilter.setSelection(2)
+            SortType.LOCAL -> binding.spFilter.setSelection(0)
+            SortType.REMOTE -> binding.spFilter.setSelection(1)
         }
 
         binding.spFilter.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -55,9 +58,8 @@ class SportListFragment : Fragment(), SportAdapter.ItemListener {
                 id: Long
             ) {
                 when (pos) {
-                    0 -> viewModel.sortRuns(SortType.ALL)
-                    1 -> viewModel.sortRuns(SortType.LOCAL)
-                    2 -> viewModel.sortRuns(SortType.REMOTE)
+                    0 -> viewModel.sortRuns(SortType.LOCAL)
+                    1 -> viewModel.sortRuns(SortType.REMOTE)
                 }
             }
 
@@ -69,6 +71,26 @@ class SportListFragment : Fragment(), SportAdapter.ItemListener {
 
         viewModel.sports.observe(viewLifecycleOwner) {
             sportAdapter.submitList(it)
+        }
+
+        viewModel.remoteData.observe(viewLifecycleOwner) { response ->
+            when (response) {
+                is Resource.Success -> {
+                    Toast.makeText(requireContext(), "Data successfully loaded", Toast.LENGTH_SHORT).show()
+                    /*response.data?.let { sportResponse ->
+                        sportAdapter.submitList(mapRemoteToLocal(sportResponse.documents))
+                    }*/
+                }
+                is Resource.Loading -> {
+                    Toast.makeText(requireContext(), "Data loading", Toast.LENGTH_SHORT).show()
+                }
+                is Resource.Error -> {
+                    Toast.makeText(requireContext(), "Error loading data", Toast.LENGTH_SHORT).show()
+                    response.message?.let { message ->
+                        Timber.e(message)
+                    }
+                }
+            }
         }
 
     }
@@ -105,6 +127,10 @@ class SportListFragment : Fragment(), SportAdapter.ItemListener {
     }
 
     override fun onLongClick(sport: Sport) {
+        if (binding.spFilter.selectedItemPosition != 0) {
+            // Temporary solution before enabling delete from db
+            return
+        }
         val builder = AlertDialog.Builder(requireContext())
         builder.setMessage("Do you really want to delete this entry?")
         builder.setCancelable(true)
