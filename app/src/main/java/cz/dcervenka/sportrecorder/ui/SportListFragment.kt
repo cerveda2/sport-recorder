@@ -13,7 +13,6 @@ import cz.dcervenka.sportrecorder.R
 import cz.dcervenka.sportrecorder.databinding.FragmentSportListBinding
 import cz.dcervenka.sportrecorder.db.Sport
 import cz.dcervenka.sportrecorder.network.Resource
-import cz.dcervenka.sportrecorder.other.Mapping.mapRemoteToLocal
 import cz.dcervenka.sportrecorder.other.SortType
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber

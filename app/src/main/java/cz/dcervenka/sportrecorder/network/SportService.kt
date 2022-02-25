@@ -14,6 +14,6 @@ interface SportService {
     suspend fun postData(@Body document: Document, @Path("collectionId") collectionId: String)
 
     @DELETE("data")
-    suspend fun deleteData(@Body sport: SportRemote)
+    suspend fun deleteData(@Body document: Document)
 
 }

@@ -2,7 +2,6 @@ package cz.dcervenka.sportrecorder.repository
 
 import cz.dcervenka.sportrecorder.db.Sport
 import cz.dcervenka.sportrecorder.db.SportDao
-import cz.dcervenka.sportrecorder.network.SportRemote
 import cz.dcervenka.sportrecorder.network.SportService
 import cz.dcervenka.sportrecorder.network.model.Document
 import cz.dcervenka.sportrecorder.other.Constants.API_KEY
@@ -25,6 +24,6 @@ class SportRepository @Inject constructor(
 
     suspend fun postSport(document: Document, collectionId: String) = sportService.postData(document, collectionId)
 
-    suspend fun deleteRemoteSport(sport: SportRemote) = sportService.deleteData(sport)
+    suspend fun deleteRemoteSport(document: Document) = sportService.deleteData(document)
 
 }

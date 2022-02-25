@@ -1,30 +1,21 @@
 package cz.dcervenka.sportrecorder.ui
 
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextUtils
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.RadioButton
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.snackbar.Snackbar
-import cz.dcervenka.sportrecorder.R
 import cz.dcervenka.sportrecorder.databinding.FragmentSportCreateBinding
 import cz.dcervenka.sportrecorder.db.Sport
-import cz.dcervenka.sportrecorder.network.model.Document
-import cz.dcervenka.sportrecorder.network.model.RemoteData
 import cz.dcervenka.sportrecorder.other.SortType
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 import java.util.concurrent.TimeUnit
-import kotlin.collections.ArrayList
-import kotlin.math.round
-import kotlin.time.Duration.Companion.milliseconds
 
 
 @AndroidEntryPoint
